@@ -1,6 +1,8 @@
 import BasePlugin from '..';
 import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 
+chai.use(chaiAsPromised);
 const should = chai.should();
 
 describe('base plugin', function () {
@@ -11,16 +13,17 @@ describe('base plugin', function () {
     const p = new BasePlugin('foo');
     should.exist(p.logger);
   });
-  it('should do nothing in the onServer function', async function () {
+  it('should define a default list of no commands handled', function () {
     const p = new BasePlugin('foo');
-    let called = false;
-    await p.onServer(() => called = true);
-    called.should.be.true;
+    p.handleCommands.should.eql([]);
   });
-  it('should do nothing in the onCommand function', async function () {
+  it('should do nothing in the updateServer function', async function () {
     const p = new BasePlugin('foo');
-    let called = false;
-    await p.onCommand(() => called = true);
-    called.should.be.true;
+    await p.updateServer();
+  });
+  it('should do nothing in the handleCommand function', async function () {
+    const p = new BasePlugin('foo');
+    const driver = {findElement: (fake1, fake2) => `${fake1} ${fake2}`};
+    await p.handleCommand(driver, 'findElement', 'str1', 'str2').should.eventually.eql('str1 str2');
   });
 });
