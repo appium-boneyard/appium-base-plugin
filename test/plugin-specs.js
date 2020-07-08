@@ -17,6 +17,10 @@ describe('base plugin', function () {
     const p = new BasePlugin('foo');
     p.handleCommands.should.eql([]);
   });
+  it('should define a default list of no commands wrapped', function () {
+    const p = new BasePlugin('foo');
+    p.wrapCommands.should.eql([]);
+  });
   it('should do nothing in the updateServer function', async function () {
     const p = new BasePlugin('foo');
     await p.updateServer();
@@ -25,5 +29,9 @@ describe('base plugin', function () {
     const p = new BasePlugin('foo');
     const driver = {findElement: (fake1, fake2) => `${fake1} ${fake2}`};
     await p.handleCommand(driver, 'findElement', 'str1', 'str2').should.eventually.eql('str1 str2');
+  });
+  it('should do nothing in the wrapCommand function', async function () {
+    const p = new BasePlugin('foo');
+    await p.wrapCommand('wrapped').should.eventually.eql('wrapped');
   });
 });
