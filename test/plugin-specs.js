@@ -32,6 +32,6 @@ describe('base plugin', function () {
   });
   it('should do nothing in the wrapCommand function', async function () {
     const p = new BasePlugin('foo');
-    await p.wrapCommand('wrapped').should.eventually.eql('wrapped');
+    await p.wrapCommand(() => 'wrapped').should.eventually.eql('wrapped');
   });
 });
