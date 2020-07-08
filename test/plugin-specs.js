@@ -21,9 +21,13 @@ describe('base plugin', function () {
     const p = new BasePlugin('foo');
     p.wrapCommands.should.eql([]);
   });
-  it('should do nothing in the updateServer function', async function () {
+  it('should do nothing by default in the updateServer function', async function () {
     const p = new BasePlugin('foo');
-    await p.updateServer();
+    const app = {};
+    const server = {};
+    await p.updateServer(app, server);
+    app.should.eql({});
+    server.should.eql({});
   });
   it('should do nothing in the handleCommand function', async function () {
     const p = new BasePlugin('foo');
