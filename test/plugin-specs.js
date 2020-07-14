@@ -17,13 +17,17 @@ describe('base plugin', function () {
     const p = new BasePlugin('foo');
     should.exist(p.logger);
   });
+  it('should define no server updates', function () {
+    const p = new BasePlugin('foo');
+    p.updatesServer.should.eql(false);
+  });
   it('should define a default list of no commands handled', function () {
     const p = new BasePlugin('foo');
-    p.handleCommands.should.eql([]);
+    p.commands.should.eql(false);
   });
-  it('should define a default list of no commands wrapped', function () {
+  it('should define a default list of no new methods', function () {
     const p = new BasePlugin('foo');
-    p.wrapCommands.should.eql([]);
+    p.newMethodMap.should.eql({});
   });
   it('should do nothing by default in the updateServer function', async function () {
     const p = new BasePlugin('foo');
@@ -33,13 +37,8 @@ describe('base plugin', function () {
     app.should.eql({});
     server.should.eql({});
   });
-  it('should do nothing in the handleCommand function', async function () {
+  it('should just run the inner command by default in the handle function', async function () {
     const p = new BasePlugin('foo');
-    const driver = {findElement: (fake1, fake2) => `${fake1} ${fake2}`};
-    await p.handleCommand(driver, 'findElement', 'str1', 'str2').should.eventually.eql('str1 str2');
-  });
-  it('should do nothing in the wrapCommand function', async function () {
-    const p = new BasePlugin('foo');
-    await p.wrapCommand(() => 'wrapped').should.eventually.eql('wrapped');
+    await p.handle(() => 'wrapped').should.eventually.eql('wrapped');
   });
 });
